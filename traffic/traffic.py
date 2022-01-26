@@ -36,6 +36,7 @@ class Car:
     def __init__(self, car_info):
         self.route = car_info.split()
         self.route.pop(0)
+        print(self.route)
 
 
 # program begins
@@ -44,21 +45,22 @@ city = City()
 
 with open('data') as f:
     city_info = f.readline().strip()
+    city_info = [int(val) for val in city_info.split()]
     simulation_length, \
     number_of_intersections, \
     number_of_streets, \
     number_of_cars, \
     points_for_reaching_destination \
-    = city_info.split()
+    = city_info
 
     for id in range(int(number_of_intersections)):
         city.new_intersection(id)
 
-    for _ in range(int(number_of_streets)):
+    for _ in range(number_of_streets):
         street_info = f.readline().strip()
         street = Street(street_info)
         city.add_street(street)
 
-    for _ in number_of_cars:
+    for _ in range(number_of_cars):
         car_info = f.readline().strip()
         Car(car_info)
