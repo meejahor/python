@@ -17,6 +17,13 @@ class Intersection:
     def add_outgoing_street(self, street):
         self.outgoing_streets[street.name] = street
 
+    def get_array_of_neighbours(self):
+        neighbours = []
+        for _, street in self.outgoing_streets.items():
+            neighbours.append(street.to_intersection)
+        return neighbours
+
+
 class City:
     def __init__(self):
         self.intersections = {}
@@ -36,7 +43,6 @@ class Car:
     def __init__(self, car_info):
         self.route = car_info.split()
         self.route.pop(0)
-        print(self.route)
 
 
 # program begins
@@ -53,7 +59,7 @@ with open('data') as f:
     points_for_reaching_destination \
     = city_info
 
-    for id in range(int(number_of_intersections)):
+    for id in range(number_of_intersections):
         city.new_intersection(id)
 
     for _ in range(number_of_streets):
@@ -64,3 +70,16 @@ with open('data') as f:
     for _ in range(number_of_cars):
         car_info = f.readline().strip()
         Car(car_info)
+
+# create adjacency list
+
+adjacency_list = {}
+
+for id, intersection in city.intersections.items():
+    neighbours = intersection.get_array_of_neighbours()
+    adjacency_list[id] = neighbours
+
+print(adjacency_list)
+
+# directed graph (edges only go one way)
+# connected verts are neighbours (must obey direction of edge)
